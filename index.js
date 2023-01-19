@@ -1,4 +1,7 @@
 const grid = document.querySelector(".grid");
+let goingRight = true;
+let direction = 1;
+let invadersId;
 let width = 15; //here 15 is the total number of boxes that can fit in a row
 let currentShooterIndex = 216;
 for (let i = 0; i < 225; i++) {
@@ -23,6 +26,13 @@ function draw() {
   }
 }
 
+//Functions remove invaders
+function remove() {
+  for (let i = 0; i < alienInvaders.length; i++) {
+    squares[alienInvaders[i]].classList.remove("invader");
+  }
+}
+
 draw();
 
 //Adding shooter
@@ -44,3 +54,48 @@ function moveShooter(e) {
 }
 
 document.addEventListener("keydown", moveShooter);
+
+//Move invaders
+function moveInvaders() {
+  const leftEdge = alienInvaders[0] % width === 0;
+  const rightEdge =
+    alienInvaders[alienInvaders.length - 1] % width === width - 1;
+  remove();
+
+  if (rightEdge && goingRight) {
+    for (let i = 0; i < alienInvaders.length; i++) {
+      alienInvaders[i] += width + 1;
+      direction = -1;
+      goingRight = false;
+    }
+  }
+
+  if (leftEdge && !goingRight) {
+    for (let i = 0; i < alienInvaders.length; i++) {
+      alienInvaders[i] += width - 1;
+      direction = 1;
+      goingRight = true;
+    }
+  }
+
+  for (let i = 0; i < alienInvaders.length; i++) {
+    alienInvaders[i] += direction;
+  }
+
+  draw();
+
+  // Game over (invader touches the shooter)
+  if (squares[currentShooterIndex].classList.contains("invader", "shooter")) {
+    clearInterval(invadersId);
+    alert("Game Over");
+  }
+
+  for (let i = 0; i < alienInvaders.length; i++) {
+    if (alienInvaders[i] > square.length) {
+      clearInterval(invadersId);
+      alert("GameOver");
+    }
+  }
+}
+
+invadersId = setInterval(moveInvaders, 100);
