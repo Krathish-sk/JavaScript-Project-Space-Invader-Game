@@ -1,9 +1,9 @@
 .grid {
   width: 300px;
   height: 300px;
+  border: solid black 1px;
   display: flex;
   flex-wrap: wrap;
-  border: 1ps solid black;
 }
 
 .grid div {
@@ -12,6 +12,6 @@
 }
 
 .invader {
-  background-color: black;
+  background-color: purple;
   border-radius: 10px;
 }
