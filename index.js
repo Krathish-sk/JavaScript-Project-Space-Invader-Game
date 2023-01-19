@@ -1,5 +1,6 @@
 const grid = document.querySelector(".grid");
-
+let width = 15; //here 15 is the total number of boxes that can fit in a row
+let currentShooterIndex = 216;
 for (let i = 0; i < 225; i++) {
   const square = document.createElement("div");
   grid.appendChild(square);
@@ -23,3 +24,23 @@ function draw() {
 }
 
 draw();
+
+//Adding shooter
+squares[currentShooterIndex].classList.add("shooter");
+
+//Moving the shooter
+
+function moveShooter(e) {
+  squares[currentShooterIndex].classList.remove("shooter");
+  switch (e.key) {
+    case "ArrowLeft":
+      if (currentShooterIndex % width !== 0) currentShooterIndex -= 1;
+      break;
+    case "ArrowRight":
+      if (currentShooterIndex % width < width - 1) currentShooterIndex += 1;
+      break;
+  }
+  squares[currentShooterIndex].classList.add("shooter");
+}
+
+document.addEventListener("keydown", moveShooter);
